@@ -28,6 +28,14 @@ class Trajectory < Formula
   end
 
   test do
-    assert_match "trajectory v#{version}", shell_output("#{bin}/trajectory version")
+    port = free_port
+    pid = spawn bin/"trajectory", "serve", "-demo", "-db", (testpath/"investigations.sqlite").to_s,
+                "-port", port.to_s
+    sleep 2
+    response = shell_output("curl --fail --silent --show-error http://127.0.0.1:#{port}/healthz")
+    assert_equal '{"status":"ok"}', response.strip
+  ensure
+    Process.kill("TERM", pid)
+    Process.wait(pid)
   end
 end
