@@ -1,7 +1,6 @@
 class Trajectory < Formula
   desc "Local performance review for Codex tasks"
   homepage "https://github.com/asoules/trajectory"
-  version "0.1.0"
   license "MIT"
 
   on_macos do
